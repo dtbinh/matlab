@@ -9,6 +9,7 @@ function x = leontief(C, d)
 %   x = (I - C)^-1 * d
 %   x = (I - C)^-1 * d is equivalent to the function below
 
+n = numel(d);
 x = (eye(n) - C)\d;
 
 end
