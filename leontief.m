@@ -6,7 +6,7 @@ function x = leontief(C, d)
 %   Ix - Cx = d
 %   (I - C)x = d
 %   (I - C)^-1 * (I - C)x = (I - C)^-1 * d
-%   x = (I - C)^-1 * d
+%   Ix = (I - C)^-1 * d
 %   x = (I - C)^-1 * d is equivalent to the function below
 
 n = numel(d);
