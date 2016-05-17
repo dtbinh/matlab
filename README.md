@@ -1,3 +1,3 @@
 # MATLAB
 
-Some interesting functions I've come across.
+Interesting functions I've come across.
