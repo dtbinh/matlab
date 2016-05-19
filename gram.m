@@ -1,10 +1,13 @@
 function u = gram(v)
-u = zeros(size(v));
+%Gram-Schmidt process
+u = v;
 u(:,1) = v(:,1);
 for i = 2:size(v, 2)
-    u(:,i) = v(:,i);
-    for j = i:size(v, 2)
-        u(:,i) = v(:,j);
+    term = 0;
+    for j = 1:(i - 1)
+        term = term + proj(v(:,i), u(:,j)); 
     end
+    u(:,i) = v(:,i) - term;
 end
+u = normc(u);
 end
