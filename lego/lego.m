@@ -1,24 +1,35 @@
-clear all
+clear
+ev3 = legoev3('usb');
+beep(ev3)
+clearLCD(ev3)
+gyro = gyroSensor(ev3);
+angle = readRotationAngle(gyro);
+resetRotationAngle(gyro)
 
-myev3 = legoev3;
-beep(myev3)
+SPEED = 30;
 
-mymotor1 = motor(myev3, 'B');
-mymotor2 = motor(myev3, 'C');
+motor1 = motor(ev3, 'A');
+motor2 = motor(ev3, 'D');
 
-mymotor1.Speed = -100;
-mymotor2.Speed = -100;
+motor1.Speed = 0;
+motor2.Speed = 0;
 
-start(mymotor1)
-start(mymotor2)
+start(motor1)
+start(motor2)
 
-mysensor = sonicSensor(myev3);
-
-while 1
-    dis = readDistance(mysensor);
-    if dis <= .7
-        mymotor1.Speed = 100;
-        pause(.3)
-        mymotor1.Speed = -100;
+while ~readButton(ev3, 'up')
+    
+    SPEED = readRotationAngle(gyro);
+    writeLCD(ev3, num2str(angle))
+    if SPEED >= 0
+        motor1.Speed = SPEED;
+        motor2.Speed = SPEED;
+    else
+        motor1.Speed = -SPEED;
+        motor2.Speed = -SPEED;
     end
 end
+
+stop(motor1)
+stop(motor2)
+clear
