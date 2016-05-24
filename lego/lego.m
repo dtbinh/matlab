@@ -1,3 +1,5 @@
+%Simple obstacle avoidance program
+
 clear
 ev3 = legoev3('usb');
 beep(ev3)
