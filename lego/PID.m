@@ -15,9 +15,10 @@ Kp = 5; Ki = 00; Kd = 0;
 dt = 0.001;
 setpoint = readRotationAngle(gyro);
 previous_error = 0;
+output = 0;
 integral = 0; 
 
-while ~readButton(ev3, 'up')
+while ~readButton(ev3, 'up') && abs(output) < 400
     
     measured_value = readRotationAngle(gyro);
     error = setpoint - measured_value;
