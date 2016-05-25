@@ -1,12 +1,12 @@
-function turn(motor, degrees, power, stopmode)
-
+function rate = turn(motor, power)
 resetRotation(motor)
 motor.Speed = power;
+time = 0;
 start(motor)
-
-while abs(readRotation(motor)) <= degrees
+while true
+    time = time + 1;
+    pause(1)
+    rate = readRotation(motor)/time
+end
 end
 
-stop(motor, stopmode)
-
-end
