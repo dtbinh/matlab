@@ -45,15 +45,15 @@ public class LEGO {
 		while (touchValue[0] == 0){
 			
 			//Calculate angular acceleration
-			double startTime = System.currentTimeMillis();
+			float startTime = System.currentTimeMillis();
 			gyroSensor.getAngleAndRateMode().fetchSample(gyroValues, 0);
 			gyroSensor.getAngleAndRateMode().fetchSample(gyroValues2, 0);
-			double endTime = System.currentTimeMillis();
-			double alpha = (gyroValues2[1] - gyroValues[1])/(endTime - startTime);
+			float endTime = System.currentTimeMillis();
+			float alpha = (gyroValues2[1] - gyroValues[1])/(endTime - startTime);
 			
-			double xAcceleration = -L*(alpha*Math.sin(Math.toRadians(gyroValues2[0])) + gyroValues2[1]*Math.cos(Math.toRadians(gyroValues2[0])));
-			double xVelocity = -L*Math.sin(Math.toRadians(gyroValues2[0]))*gyroValues2[1];
-			double x = L*Math.cos(Math.toRadians(gyroValues2[0]));
+			float xAcceleration = (float) (-L*(alpha*Math.sin(Math.toRadians(gyroValues2[0])) + gyroValues2[1]*Math.cos(Math.toRadians(gyroValues2[0]))));
+			float xVelocity = (float) (-L*Math.sin(Math.toRadians(gyroValues2[0]))*gyroValues2[1]);
+			float x = (float) (L*Math.cos(Math.toRadians(gyroValues2[0])));
 			
 			gLCD.clear();
 			gLCD.drawString(gyroValues[0] + " " + gyroValues[1], 0, 0, 0);
