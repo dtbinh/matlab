@@ -39,7 +39,7 @@ public class LEGO {
 		//LCD set-up
 		GraphicsLCD gLCD = LocalEV3.get().getGraphicsLCD();
 		final int SW = gLCD.getWidth();
-	    final int SH = gLCD.getHeight();
+		final int SH = gLCD.getHeight();
 	
 		while (touchValue[0] == 0){
 			
