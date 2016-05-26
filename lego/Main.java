@@ -22,7 +22,6 @@ public class LEGO {
 		RegulatedMotor motorD = new EV3LargeRegulatedMotor(MotorPort.D);
 		motorA.synchronizeWith(new RegulatedMotor[] {motorD});
 		
-		
 		//Touch sensor set-up
 		EV3TouchSensor touchSensor = new EV3TouchSensor(SensorPort.S1);
 		SampleProvider touchSample = touchSensor.getTouchMode();
@@ -45,18 +44,19 @@ public class LEGO {
 		while (touchValue[0] == 0){
 			
 			//Calculate angular acceleration
-			float startTime = System.currentTimeMillis();
 			gyroSensor.getAngleAndRateMode().fetchSample(gyroValues, 0);
+			long startTime = System.nanoTime();
 			gyroSensor.getAngleAndRateMode().fetchSample(gyroValues2, 0);
-			float endTime = System.currentTimeMillis();
-			float alpha = (gyroValues2[1] - gyroValues[1])/(endTime - startTime);
+			long endTime = System.nanoTime();
+			double alpha = 1000000000*(gyroValues2[1] - gyroValues[1])/(endTime - startTime);
+			int alphaInt = (int) Math.round(alpha);
 			
-			float xAcceleration = (float) (-L*(alpha*Math.sin(Math.toRadians(gyroValues2[0])) + gyroValues2[1]*Math.cos(Math.toRadians(gyroValues2[0]))));
-			float xVelocity = (float) (-L*Math.sin(Math.toRadians(gyroValues2[0]))*gyroValues2[1]);
-			float x = (float) (L*Math.cos(Math.toRadians(gyroValues2[0])));
+			int xAcceleration = (int) Math.round((-L*(alpha*Math.sin(Math.toRadians(gyroValues2[0])) + gyroValues2[1]*Math.cos(Math.toRadians(gyroValues2[0])))));
+			int xVelocity = (int) Math.round((-L*Math.sin(Math.toRadians(gyroValues2[0]))*gyroValues2[1]));
+			int x = (int) Math.round((L*Math.cos(Math.toRadians(gyroValues2[0]))));
 			
 			gLCD.clear();
-			gLCD.drawString(gyroValues[0] + " " + gyroValues[1], 0, 0, 0);
+			gLCD.drawString(gyroValues[0] + " " + gyroValues[1] + " " + alphaInt, 0, 0, 0);
 			gLCD.drawString(x + " " + xVelocity + " " + xAcceleration, SW/2, SH/2, GraphicsLCD.BOTTOM|GraphicsLCD.HCENTER);
 			gLCD.refresh();
 			
