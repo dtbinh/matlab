@@ -8,7 +8,6 @@ import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
-import lejos.utility.Delay;
 
 public class LEGO {
 
@@ -21,6 +20,8 @@ public class LEGO {
 		//Motor set-up
 		RegulatedMotor motorA = new EV3LargeRegulatedMotor(MotorPort.A);
 		RegulatedMotor motorD = new EV3LargeRegulatedMotor(MotorPort.D);
+		motorA.synchronizeWith(new RegulatedMotor[] {motorD});
+		
 		
 		//Touch sensor set-up
 		EV3TouchSensor touchSensor = new EV3TouchSensor(SensorPort.S1);
@@ -32,6 +33,8 @@ public class LEGO {
 		EV3GyroSensor gyroSensor = new EV3GyroSensor(SensorPort.S4);
 		SampleProvider gyroSample = gyroSensor.getAngleAndRateMode();
 		float[] gyroValues = new float[gyroSample.sampleSize()];
+		float[] gyroValues2 = new float[gyroSample.sampleSize()];
+
 		gyroSensor.fetchSample(gyroValues, 0);
 
 		//LCD set-up
@@ -41,27 +44,21 @@ public class LEGO {
 	
 		while (touchValue[0] == 0){
 			
+			//Calculate angular acceleration
+			double startTime = System.currentTimeMillis();
 			gyroSensor.getAngleAndRateMode().fetchSample(gyroValues, 0);
-			float rate = (float) (180*L*Math.sin(Math.toRadians(gyroValues[1]))*gyroValues[0]/(Math.PI*r));
+			gyroSensor.getAngleAndRateMode().fetchSample(gyroValues2, 0);
+			double endTime = System.currentTimeMillis();
+			double alpha = (gyroValues2[1] - gyroValues[1])/(endTime - startTime);
+			
+			double xAcceleration = -L*(alpha*Math.sin(Math.toRadians(gyroValues2[0])) + gyroValues2[1]*Math.cos(Math.toRadians(gyroValues2[0])));
+			double xVelocity = -L*Math.sin(Math.toRadians(gyroValues2[0]))*gyroValues2[1];
+			double x = L*Math.cos(Math.toRadians(gyroValues2[0]));
 			
 			gLCD.clear();
 			gLCD.drawString(gyroValues[0] + " " + gyroValues[1], 0, 0, 0);
-			gLCD.drawString("dtheta/dt = " + rate, SW/2, SH/2, GraphicsLCD.BOTTOM | GraphicsLCD.HCENTER);
+			gLCD.drawString(x + " " + xVelocity + " " + xAcceleration, SW/2, SH/2, GraphicsLCD.BOTTOM|GraphicsLCD.HCENTER);
 			gLCD.refresh();
-			
-			motorA.setSpeed((int) rate);
-			motorD.setSpeed((int) rate);
-			if (gyroValues[1] > 0){
-				
-				motorA.backward();
-				motorD.backward();
-		
-			}else {
-				
-				motorA.forward();
-				motorD.forward();
-				
-			}
 			
 			touchSensor.fetchSample(touchValue, 0);
 
@@ -72,6 +69,6 @@ public class LEGO {
 		motorA.close();
 		motorD.close();
 		
-		}
-	
 	}
+	
+}
