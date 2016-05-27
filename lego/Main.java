@@ -25,7 +25,6 @@ public class LEGO {
 		motorA.setSpeed(1000000);
 		motorD.setSpeed(1000000);
 		
-		
 		//Touch sensor set-up
 		EV3TouchSensor touchSensor = new EV3TouchSensor(SensorPort.S1);
 		SampleProvider touchSample = touchSensor.getTouchMode();
@@ -86,6 +85,10 @@ public class LEGO {
 		touchSensor.close();
 		
 		motorA.synchronizeWith(new RegulatedMotor[] {motorD});
+		motorA.setAcceleration(10000000);
+		motorD.setAcceleration(10000000);
+		motorA.setSpeed(0);
+		motorD.setSpeed(0);
 		motorA.stop();
 		motorD.stop();
 		motorA.endSynchronization();
