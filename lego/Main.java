@@ -68,7 +68,6 @@ public class LEGO {
 				motorA.backward();
 			}
 			
-			
 			touchSensor.fetchSample(touchValue, 0);
 		}
 		
