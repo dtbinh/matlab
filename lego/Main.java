@@ -53,7 +53,6 @@ public class LEGO {
 			
 			
 			
-			
 			gLCD.clear();
 			gLCD.drawString(gyroValues[0] + " " + gyroValues[1], 0, 0, 0);
 			gLCD.refresh();
