@@ -21,7 +21,8 @@ public class LEGO {
 		//Motor set-up
 		RegulatedMotor motorA = new EV3LargeRegulatedMotor(MotorPort.A);
 		RegulatedMotor motorD = new EV3LargeRegulatedMotor(MotorPort.D);
-		motorA.setSpeed(1000000);
+		motorA.setSpeed(0);
+		motorA.setAcceleration(0);
 		motorA.forward();
 		
 		//Touch sensor set-up
