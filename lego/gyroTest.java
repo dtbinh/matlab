@@ -14,9 +14,7 @@ public class LEGO {
 		GraphicsLCD gLCD = LocalEV3.get().getGraphicsLCD();
 		final int SW = gLCD.getWidth();
 	    	final int SH = gLCD.getHeight();
-		gLCD.setFont(Font.getDefaultFont());
-		int L = 1;
-		int r = 1;
+		gLCD.setFont(Font.getDefaultFont;
 		EV3TouchSensor touchSensor = new EV3TouchSensor(SensorPort.S1);
 		SampleProvider touch = touchSensor.getMode("Touch");
 		float[] sample = new float[touch.sampleSize()];
