@@ -1,6 +1,6 @@
 function x = leontief(C, d)
 %leontief input-output model
-%   x = Amount produced; Cx = Intermediate demand; d = Final demand
+%   x = Amount produced; Cx = Intermediate demand; d = Final demand;
 %   x = Cx + d
 %   x - Cx = d
 %   Ix - Cx = d
