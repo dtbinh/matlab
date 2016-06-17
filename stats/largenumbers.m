@@ -1,4 +1,4 @@
-n = 100000;
+n = 10000;
 prob = zeros(1, n);
 
 for i = 1:n
